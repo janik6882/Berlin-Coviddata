@@ -58,13 +58,21 @@ class Wrapper():
 
     def get_curr_distrib_ages(self):
         # TODO: add docu
+        url = self.urls["distr_ages_curr"]
+        r = self.s.get(url)
+        data = json.loads(r.content)
+        return data
+
+    def get_curr_distrib_districts(self):
         url = self.urls["distr_districs_curr"]
         r = self.s.get(url)
+        data = json.loads(r.content)
+        return data
 
 
 def main():
     test = Wrapper()
-    x = test.get_last_distrib_ages_districts()
+    x = test.get_curr_distrib_districts()
     json.dump(x, open("out.json", "w"))
 
 if __name__ == '__main__':
