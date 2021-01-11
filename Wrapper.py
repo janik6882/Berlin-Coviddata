@@ -13,7 +13,8 @@ class Wrapper():
         self.s = requests.Session()
     def get_overview(self):
         # TODO: Add docu
-        r = self.s.get(self.urls["overview"])
+        url = self.urls["overview"]
+        r = self.s.get(url)
         data = json.loads(r.content)
         return data
 
@@ -23,14 +24,42 @@ class Wrapper():
         last = data["index"][-1]
         return last
 
-    def get_distr_districts(self):
+    def get_distrib_districts(self):
         # TODO: Add docu
+        url = self.urls["distribution_districts"]
+        r = self.s.get(url)
+        data = json.loads(r.content)
+        return data
 
+    def get_last_distrib_districts(self):
+        # TODO: add docu
+        data = self.get_distrib_districts()
+        last = data["index"][-1]
+        return last
+
+    def get_distrib_ages_districts(self):
+        # TODO: add docu
+        url = self.urls["overview__distr_ages"]
+        r = self.s.get(url)
+        data = json.loads(r.content)
+        return data
+
+    def get_last_distrib_ages_districts(self):
+        # TODO: add docu
+        data = self.get_distrib_ages_districts()
+        last = data["index"][-1]
+        res = [last]
+        last_week = last["meldewoche"]
+        last_year = last["jahr"]
+        for i in data["index"]:
+            if i["meldewoche"]==last_week and i["jahr"]==last_year:
+                res.append(i)
+        return res
 
 
 def main():
     test = Wrapper()
-    x = test.get_today_overview()
+    x = test.get_last_distrib_ages_districts()
     json.dump(x, open("out.json", "w"))
 
 if __name__ == '__main__':
