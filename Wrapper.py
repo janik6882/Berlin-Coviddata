@@ -56,6 +56,11 @@ class Wrapper():
                 res.append(i)
         return res
 
+    def get_curr_distrib_ages(self):
+        # TODO: add docu
+        url = self.urls["distr_districs_curr"]
+        r = self.s.get(url)
+
 
 def main():
     test = Wrapper()
